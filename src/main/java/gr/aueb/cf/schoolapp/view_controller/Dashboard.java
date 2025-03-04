@@ -29,21 +29,21 @@ public class Dashboard extends JFrame {
 	private static Connection connection;
 	
 	public Dashboard() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-				String sql = "jdbc:mysql://localhost:3306/school7dbpro?serverTimezone=UTC";
-				String username = "user7pro";
-				String password = "12345";
-				
-				try {
-					connection = DriverManager.getConnection(sql, username, password);
-					System.out.println("Connection success");
-				}catch(SQLException e1){
-					e1.printStackTrace();
-				}
-			}
-		});
+//		addWindowListener(new WindowAdapter() {
+//			@Override
+//			public void windowOpened(WindowEvent e) {
+//				String sql = "jdbc:mysql://localhost:3306/school7dbpro?serverTimezone=UTC";
+//				String username = "user7pro";
+//				String password = "12345";
+//
+//				try {
+//					connection = DriverManager.getConnection(sql, username, password);
+//					System.out.println("Connection success");
+//				}catch(SQLException e1){
+//					e1.printStackTrace();
+//				}
+//			}
+//		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Dashboard.class.getResource("/images/eduv2.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 756, 514);
