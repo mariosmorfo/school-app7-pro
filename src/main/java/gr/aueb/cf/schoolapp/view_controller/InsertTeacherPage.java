@@ -408,44 +408,44 @@ public class InsertTeacherPage extends JFrame {
 				String zipcode = zipcodeText.getText().trim();
 				
 				
-				// Validation
-				
-				errorFirstname.setText(firstname.equals("") ? "Το όνομα είναι υποχρεωτικό" : "");
-
-				// Validate last name
-				errorLastname.setText(lastname.equals("") ? "Το επώνυμο είναι υποχρεωτικό" : "");
-				
-				errorVat.setText(vat.equals("") ? "Το ΑΦΜ είναι υποχρεωτικό" : "");
-				
-				errorfathername.setText(fathername.equals("") ? "Το πατρώνυμο είναι υποχρεωτικό" : "");
-				
-				errorPhoneNumber.setText(phoneNumber.equals("") ? "Το τηλέφωνο είναι υποχρεωτικό" : "");
-				
-				errorEmail.setText(email.equals("") ? "Το email είναι υποχρεωτικό" : "");
-				
-				errorStreet.setText(street.equals("") ? "Η διεύθυνση είναι υποχρεωτική" : "");
-				
-				errorStreetNumber.setText(streetNumber.equals("") ? "Ο αριθμός διεύθυνσης είναι υποχρεωτικός" : "");
-				
-				errorZipCode.setText(zipcode.equals("") ? "Ο ΤΚ είναι υποχρεωτικός" : "");
+//				// Validation
+//
+//				errorFirstname.setText(firstname.equals("") ? "Το όνομα είναι υποχρεωτικό" : "");
+//
+//				// Validate last name
+//				errorLastname.setText(lastname.equals("") ? "Το επώνυμο είναι υποχρεωτικό" : "");
+//
+//				errorVat.setText(vat.equals("") ? "Το ΑΦΜ είναι υποχρεωτικό" : "");
+//
+//				errorfathername.setText(fathername.equals("") ? "Το πατρώνυμο είναι υποχρεωτικό" : "");
+//
+//				errorPhoneNumber.setText(phoneNumber.equals("") ? "Το τηλέφωνο είναι υποχρεωτικό" : "");
+//
+//				errorEmail.setText(email.equals("") ? "Το email είναι υποχρεωτικό" : "");
+//
+//				errorStreet.setText(street.equals("") ? "Η διεύθυνση είναι υποχρεωτική" : "");
+//
+//				errorStreetNumber.setText(streetNumber.equals("") ? "Ο αριθμός διεύθυνσης είναι υποχρεωτικός" : "");
+//
+//				errorZipCode.setText(zipcode.equals("") ? "Ο ΤΚ είναι υποχρεωτικός" : "");
 
 				// Return if any field is empty
 				if (selectedCity == null || firstname.equals("") || lastname.equals("") || vat.equals("") || fathername.equals("")|| phoneNumber.equals("")||email.equals("") || street.equals("")|| streetNumber.equals("")|| zipcode.equals("")) {
 					JOptionPane.showMessageDialog(null, "Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
 				    return;
 				}
-               
-				
+
+
 				// Insert
-				
+
 				String sql = "INSERT INTO teachers (firstname, lastname, vat, fathername, phone_num, "
             			+ "email, street, street_num, zipcode, city_id, uuid) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-				
+
 //            	Connection conn = Dashboard.getConnection();
-            	
+
 				try (Connection conn = DBUtil.getConnection();
 					 PreparedStatement ps = conn.prepareStatement(sql)) {
-					
+
 					ps.setString(1, firstname);
 					ps.setString(2, lastname);
 					ps.setString(3, vat);
@@ -456,14 +456,14 @@ public class InsertTeacherPage extends JFrame {
 					ps.setString(8, streetNumber);
 					ps.setString(9, zipcode);
 					ps.setInt(10,cityId);
-					
+
 					String uuid = UUID.randomUUID().toString();
 				    ps.setString(11, uuid);
-					
+
 					int n = ps.executeUpdate();
-					
-					JOptionPane.showMessageDialog(null,  n + " record(s) inserted", "INSERT", JOptionPane.PLAIN_MESSAGE);	
-				} catch (SQLException e1) {			
+
+					JOptionPane.showMessageDialog(null,  n + " record(s) inserted", "INSERT", JOptionPane.PLAIN_MESSAGE);
+				} catch (SQLException e1) {
 				    e1.printStackTrace();
 					JOptionPane.showMessageDialog(null,  "Insertion error", "Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -501,27 +501,29 @@ public class InsertTeacherPage extends JFrame {
 	}
 	
 	private List<City> fetchCitiesFromDatabase() {
-		String sql = "SELECT * FROM cities order by name asc";
-		List<City> cities = new ArrayList();
-		
-		Connection connection = Dashboard.getConnection();
-		
-		try (PreparedStatement ps = connection.prepareStatement(sql)) {
-			
-			
-			ResultSet rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				int id = rs.getInt("id");
-				String name = rs.getString("name");
-				
-				City city = new City(id, name);
-				cities.add(city);
-			}
-			
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,  "Select cities error", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return cities;
+//		String sql = "SELECT * FROM cities order by name asc";
+//		List<City> cities = new ArrayList();
+//
+////		Connection connection = Dashboard.getConnection();
+//
+//		try (Connection connection = DBUtil.getConnection();
+//				PreparedStatement ps = connection.prepareStatement(sql)) {
+//
+//
+//			ResultSet rs = ps.executeQuery();
+//
+//			while (rs.next()) {
+//				int id = rs.getInt("id");
+//				String name = rs.getString("name");
+//
+//				City city = new City(id, name);
+//				cities.add(city);
+//			}
+//
+//		} catch (SQLException e) {
+//			JOptionPane.showMessageDialog(null,  "Select cities error", "Error", JOptionPane.ERROR_MESSAGE);
+//		}
+//		return cities;
+		return null;
 	}
 }

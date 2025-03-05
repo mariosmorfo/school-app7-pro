@@ -191,7 +191,7 @@ public class UpdateTeacherPage extends JFrame {
 		JButton updateBtn = new JButton("Ενημέρωση");
 		updateBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				// Data binding
 				String firstname = firstnameText.getText().trim();
 				String lastname = lastnameText.getText().trim();
@@ -204,201 +204,209 @@ public class UpdateTeacherPage extends JFrame {
 				City selectedCity = (City) cityComboBox.getSelectedItem();
 				int cityId = selectedCity.getId();
 				String zipcode = zipcodeText.getText();
-				
-				
-				// Validation
-				// Validate first name
-				errorFirstname.setText(firstname.equals("") ? "Το όνομα είναι υποχρεωτικό" : "");
 
-				// Validate last name
-				errorLastname.setText(lastname.equals("") ? "Το επώνυμο είναι υποχρεωτικό" : "");
 
-				// Return if any field is empty
-				if (firstname.equals("") || lastname.equals("")) {
-				    return;
-				}
-               
-
-                // Check if all fields are filled
-                if (selectedCity != null && !firstname.isEmpty() && !lastname.isEmpty()) {
-                    // Get the city_id from the selected City object
-                    
-
-                	String sql = "UPDATE teachers "
-                			+ "SET firstname = ?, lastname = ?, vat = ?, fathername = ?, phone_num = ?, email = ?, "
-                			+ "street = ?, street_num = ?, zipcode = ?, city_id = ? "
-                			+ "WHERE id = ?";
-    				
-                	Connection conn = Dashboard.getConnection();
-                	
-    				try (PreparedStatement ps = conn.prepareStatement(sql)) {
-    					
-    					ps.setString(1, firstname);
-    					ps.setString(2, lastname);
-    					ps.setString(3, vat);
-    					ps.setString(4, fathername);
-    					ps.setString(5, phoneNumber);
-    					ps.setString(6, email);
-    					ps.setString(7, street);
-    					ps.setString(8, streetNumber);
-    					ps.setString(9, zipcode);
-    					ps.setInt(10,cityId);
-    					ps.setInt(11, Main.getViewTeachersPage().getSelectedId());
-    					
-    					int n = ps.executeUpdate();
-    					
-    					JOptionPane.showMessageDialog(null,  n + " record(s) inserted", "INSERT", JOptionPane.PLAIN_MESSAGE);	
-    				} catch (SQLException e1) {			
-    					e1.printStackTrace();
-    					JOptionPane.showMessageDialog(null,  "Insertion error", "Error", JOptionPane.ERROR_MESSAGE);
-    				}
-                } else {
-                    // Show an error message if any field is empty
-                    JOptionPane.showMessageDialog(null, "Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+//				// Validation
+//				// Validate first name
+//				errorFirstname.setText(firstname.equals("") ? "Το όνομα είναι υποχρεωτικό" : "");
+//
+//				// Validate last name
+//				errorLastname.setText(lastname.equals("") ? "Το επώνυμο είναι υποχρεωτικό" : "");
+//
+//				// Return if any field is empty
+//				if (firstname.equals("") || lastname.equals("")) {
+//				    return;
+//				}
+//
+//
+//                // Check if all fields are filled
+//                if (selectedCity != null && !firstname.isEmpty() && !lastname.isEmpty()) {
+//                    // Get the city_id from the selected City object
+//
+//
+//                	String sql = "UPDATE teachers "
+//                			+ "SET firstname = ?, lastname = ?, vat = ?, fathername = ?, phone_num = ?, email = ?, "
+//                			+ "street = ?, street_num = ?, zipcode = ?, city_id = ? "
+//                			+ "WHERE id = ?";
+//
+////                	Connection conn = Dashboard.getConnection();
+//
+//    				try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//
+//    					ps.setString(1, firstname);
+//    					ps.setString(2, lastname);
+//    					ps.setString(3, vat);
+//    					ps.setString(4, fathername);
+//    					ps.setString(5, phoneNumber);
+//    					ps.setString(6, email);
+//    					ps.setString(7, street);
+//    					ps.setString(8, streetNumber);
+//    					ps.setString(9, zipcode);
+//    					ps.setInt(10,cityId);
+//    					ps.setInt(11, Main.getViewTeachersPage().getSelectedId());
+//
+//    					int n = ps.executeUpdate();
+//
+//    					JOptionPane.showMessageDialog(null,  n + " record(s) inserted", "INSERT", JOptionPane.PLAIN_MESSAGE);
+//    				} catch (SQLException e1) {
+//    					e1.printStackTrace();
+//    					JOptionPane.showMessageDialog(null,  "Insertion error", "Error", JOptionPane.ERROR_MESSAGE);
+//    				}
+//                } else {
+//                    // Show an error message if any field is empty
+//                    JOptionPane.showMessageDialog(null, "Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+//                }
 			}
 		});
-		
-		updateBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		updateBtn.setForeground(new Color(255, 255, 255));
-		updateBtn.setBackground(new Color(64, 128, 128));
-		updateBtn.setBounds(512, 485, 263, 54);
-		contentPane.add(updateBtn);
-		
-		JButton closeBtn = new JButton("Κλείσιμο");
-		closeBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Main.getViewTeachersPage().setEnabled(true);
-				Main.getUpdateTeacherPage().setVisible(false);
-			}
-		});
-		
-		closeBtn.setForeground(new Color(0, 0, 0));
-		closeBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		closeBtn.setBackground(new Color(192, 192, 192));
-		closeBtn.setBounds(91, 485, 263, 54);
-		contentPane.add(closeBtn);	
-		
-		JPanel header = new JPanel();
-		header.setLayout(null);
-		header.setBackground(new Color(0, 52, 117));
-		header.setBounds(0, 0, 842, 56);
-		contentPane.add(header);
-		
-		JLabel govImage = new JLabel("");
-		govImage.setIcon(new ImageIcon(UpdateTeacherPage.class.getResource("/images/gov_logo_small.png")));
-		govImage.setBounds(10, 0, 154, 56);
-		header.add(govImage);
-		
-		JLabel firstLastName = new JLabel("Μάριος Μορφονίδης");
-		firstLastName.setForeground(Color.WHITE);
-		firstLastName.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		firstLastName.setBounds(683, 11, 123, 34);
-		header.add(firstLastName);
-		
-		JPanel footer = new JPanel();
-		footer.setLayout(null);
-		footer.setBounds(0, 558, 842, 104);
-		contentPane.add(footer);
-		
-		JLabel lblManual = new JLabel("Εγχειρίδιο Χρήσης");
-		lblManual.setForeground(Color.BLUE);
-		lblManual.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblManual.setBounds(126, 32, 112, 34);
-		footer.add(lblManual);
-		
-		JLabel lblQuestions = new JLabel("Συχνές Ερωτήσεις");
-		lblQuestions.setForeground(Color.BLUE);
-		lblQuestions.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblQuestions.setBounds(364, 32, 112, 34);
-		footer.add(lblQuestions);
-		
-		JLabel lblSupport = new JLabel("Υποστήριξη Πολιτών");
-		lblSupport.setForeground(Color.BLUE);
-		lblSupport.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblSupport.setBounds(602, 32, 112, 34);
-		footer.add(lblSupport);
-		
-		JSeparator separator = new JSeparator();
-		separator.setBackground(new Color(0, 128, 255));
-		separator.setBounds(0, 2, 746, 1);
-		footer.add(separator);
-		
-		cityText = new JTextField();
-		cityText.setColumns(10);
-		cityText.setBounds(91, 407, 263, 37);
-		contentPane.add(cityText);
-	}
-	
-	private List<City> fetchCitiesFromDatabase() {
-		String sql = "SELECT * FROM cities order by name asc";
-		List<City> cities = new ArrayList<>();
-		Connection conn = Dashboard.getConnection();
-		
-		try (PreparedStatement ps = conn.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery()) {
-			
-	        while (rs.next()) {
-	            int id = rs.getInt("id"); // Get the id column
-	            String name = rs.getString("name"); // Get the name column
 
-	            // Create a City object and add it to the list
-	            City city = new City(id, name);
-	            cities.add(city);
-	        }     
-		} catch (SQLException e) {
-			//e.printStackTrace();
-			JOptionPane.showMessageDialog(null,  "Select error in fetch cities", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		return cities;	
-	}
-	
-	private void fetchTeacherFromDatabase(int id) {
+				updateBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				updateBtn.setForeground(new Color(255, 255, 255));
+				updateBtn.setBackground(new Color(64, 128, 128));
+				updateBtn.setBounds(512, 485, 263, 54);
+				contentPane.add(updateBtn);
+
+				JButton closeBtn = new JButton("Κλείσιμο");
+				closeBtn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Main.getViewTeachersPage().setEnabled(true);
+						Main.getUpdateTeacherPage().setVisible(false);
+					}
+				});
+
+				closeBtn.setForeground(new Color(0, 0, 0));
+				closeBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				closeBtn.setBackground(new Color(192, 192, 192));
+				closeBtn.setBounds(91, 485, 263, 54);
+				contentPane.add(closeBtn);
+
+				JPanel header = new JPanel();
+				header.setLayout(null);
+				header.setBackground(new Color(0, 52, 117));
+				header.setBounds(0, 0, 842, 56);
+				contentPane.add(header);
+
+				JLabel govImage = new JLabel("");
+				govImage.setIcon(new ImageIcon(UpdateTeacherPage.class.getResource("/images/gov_logo_small.png")));
+				govImage.setBounds(10, 0, 154, 56);
+				header.add(govImage);
+
+				JLabel firstLastName = new JLabel("Μάριος Μορφονίδης");
+				firstLastName.setForeground(Color.WHITE);
+				firstLastName.setFont(new Font("Tahoma", Font.PLAIN, 14));
+				firstLastName.setBounds(683, 11, 123, 34);
+				header.add(firstLastName);
+
+				JPanel footer = new JPanel();
+				footer.setLayout(null);
+				footer.setBounds(0, 558, 842, 104);
+				contentPane.add(footer);
+
+				JLabel lblManual = new JLabel("Εγχειρίδιο Χρήσης");
+				lblManual.setForeground(Color.BLUE);
+				lblManual.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				lblManual.setBounds(126, 32, 112, 34);
+				footer.add(lblManual);
+
+				JLabel lblQuestions = new JLabel("Συχνές Ερωτήσεις");
+				lblQuestions.setForeground(Color.BLUE);
+				lblQuestions.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				lblQuestions.setBounds(364, 32, 112, 34);
+				footer.add(lblQuestions);
+
+				JLabel lblSupport = new JLabel("Υποστήριξη Πολιτών");
+				lblSupport.setForeground(Color.BLUE);
+				lblSupport.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				lblSupport.setBounds(602, 32, 112, 34);
+				footer.add(lblSupport);
+
+				JSeparator separator = new JSeparator();
+				separator.setBackground(new Color(0, 128, 255));
+				separator.setBounds(0, 2, 746, 1);
+				footer.add(separator);
+
+				cityText = new JTextField();
+				cityText.setColumns(10);
+				cityText.setBounds(91, 407, 263, 37);
+				contentPane.add(cityText);
+			}
+
+			private List<City> fetchCitiesFromDatabase() {
+//				String sql = "SELECT * FROM cities order by name asc";
+//				List<City> cities = new ArrayList<>();
+//		Connection conn = Dashboard.getConnection();
+//
+//				try (PreparedStatement ps = conn.prepareStatement(sql);
+//					 ResultSet rs = ps.executeQuery()) {
+//
+//					while (rs.next()) {
+//						int id = rs.getInt("id"); // Get the id column
+//						String name = rs.getString("name"); // Get the name column
+//
+//						// Create a City object and add it to the list
+//						City city = new City(id, name);
+//						cities.add(city);
+//					}
+//				} catch (SQLException e) {
+//					//e.printStackTrace();
+//					JOptionPane.showMessageDialog(null, "Select error in fetch cities", "Error", JOptionPane.ERROR_MESSAGE);
+//				}
+
+				return cities;
+			}
+
+			private void fetchTeacherFromDatabase(int id) {
 //	private void fetchTeacherFromDatabase(String id) {
-		String sql = "SELECT * FROM teachers WHERE id = ?";
-		Connection conn = Dashboard.getConnection();
-		
-		try (PreparedStatement ps = conn.prepareStatement(sql)) {
-			
-			ps.setInt(1, id);
-//			ps.setString(1,  id);
-			ResultSet rs = ps.executeQuery();
-			
-			if (rs.next()) {
-				firstnameText.setText(rs.getString("firstname"));
-				lastnameText.setText(rs.getString("lastname"));
-				vatText.setText(rs.getString("vat"));
-				fathernameText.setText(rs.getString("fathername"));
-				phoneNumberText.setText(rs.getString("phone_num"));
-				emailText.setText(rs.getString("email"));
-				streetText.setText(rs.getString("street"));
-				streetNumberText.setText(rs.getString("street_num"));
-				//cityComboBox.setSelectedIndex(rs.getInt("city_id")-1);
-				int cityIdFromDB = rs.getInt("city_id"); // Get city_id from DB
-//				System.out.println("city_id" + cityIdFromDB);
-				// Find the matching city using Streams
-				City selectedCity = cities.stream()
-				    .filter(city -> city.getId() == cityIdFromDB)
-				    .findFirst()
-				    .orElse(null); // Returns null if no match is found
-//				System.out.println("Selected City: " + selectedCity);
-				// Select the city in the JComboBox
-				if (selectedCity != null) {
-				    cityComboBox.setSelectedItem(selectedCity);
-				} else cityComboBox.setSelectedIndex(0);
-				
-//				City selectedCity = (City) cityComboBox.getSelectedItem();
-				int cityId = selectedCity.getId();
-				
-				zipcodeText.setText(rs.getString("zipcode"));
-//				errorFirstname.setText("");
-//				errorLastname.setText("");
-			}	
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,  "Select error in fetch teacher", "Error", JOptionPane.ERROR_MESSAGE);	
+//		String sql = "SELECT * FROM teachers WHERE id = ?";
+//		Connection conn = Dashboard.getConnection();
+//
+//		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//
+//			ps.setInt(1, id);
+////			ps.setString(1,  id);
+//			ResultSet rs = ps.executeQuery();
+//
+//			if (rs.next()) {
+//				firstnameText.setText(rs.getString("firstname"));
+//				lastnameText.setText(rs.getString("lastname"));
+//				vatText.setText(rs.getString("vat"));
+//				fathernameText.setText(rs.getString("fathername"));
+//				phoneNumberText.setText(rs.getString("phone_num"));
+//				emailText.setText(rs.getString("email"));
+//				streetText.setText(rs.getString("street"));
+//				streetNumberText.setText(rs.getString("street_num"));
+//				//cityComboBox.setSelectedIndex(rs.getInt("city_id")-1);
+//				int cityIdFromDB = rs.getInt("city_id"); // Get city_id from DB
+////				System.out.println("city_id" + cityIdFromDB);
+//				// Find the matching city using Streams
+//				City selectedCity = cities.stream()
+//				    .filter(city -> city.getId() == cityIdFromDB)
+//				    .findFirst()
+//				    .orElse(null); // Returns null if no match is found
+////				System.out.println("Selected City: " + selectedCity);
+//				// Select the city in the JComboBox
+//				if (selectedCity != null) {
+//				    cityComboBox.setSelectedItem(selectedCity);
+//				} else cityComboBox.setSelectedIndex(0);
+//
+////				City selectedCity = (City) cityComboBox.getSelectedItem();
+//				int cityId = selectedCity.getId();
+//
+//				zipcodeText.setText(rs.getString("zipcode"));
+////				errorFirstname.setText("");
+////				errorLastname.setText("");
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			JOptionPane.showMessageDialog(null,  "Select error in fetch teacher", "Error", JOptionPane.ERROR_MESSAGE);
+//		}
+//
+			}
+
+
 		}
-	}
-}
+
+
+
+
 
 
