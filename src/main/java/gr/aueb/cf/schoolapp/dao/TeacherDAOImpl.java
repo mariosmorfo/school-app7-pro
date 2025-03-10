@@ -8,6 +8,7 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class TeacherDAOImpl implements ITeacherDAO  {
     @Override
@@ -25,7 +26,7 @@ public class TeacherDAOImpl implements ITeacherDAO  {
             ps.setString(2, teacher.getLastname());
             ps.setString(3, teacher.getVat());
             ps.setString(4, teacher.getFatherName());
-            ps.setString(5, insertedTeacher.getPhoneNum());
+            ps.setString(5, teacher.getPhoneNum());
             ps.setString(6, teacher.getEmail());
             ps.setString(7, teacher.getStreet());
             ps.setString(8, teacher.getStreetNum());
@@ -74,8 +75,10 @@ public class TeacherDAOImpl implements ITeacherDAO  {
             ps.setString(8, teacher.getStreetNum());
             ps.setString(9, teacher.getZipCode());
             ps.setInt(10, teacher.getCityId());
-            ps.setTimestamp(11, Timestamp.valueOf(teacher.getUpdatedAt()));
-            ps.setInt(12, teacher.getId());
+            ps.setString(11, UUID.randomUUID().toString());
+            ps.setTimestamp(12, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setTimestamp(13, Timestamp.valueOf(LocalDateTime.now()));
+
 
             ps.executeUpdate();
 
