@@ -1,6 +1,7 @@
 package gr.aueb.cf.schoolapp.view_controller;
 
 import gr.aueb.cf.schoolapp.Main;
+import gr.aueb.cf.schoolapp.authentication.AuthenticationManager;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -72,10 +73,10 @@ public class LoginPage extends JFrame {
 		btnConnect.setForeground(new Color(255, 255, 255));
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-				
-				
-				if((username.getText().matches("[aA]dmin"))&& Arrays.equals(password.getPassword(), "12345".toCharArray())) {
+
+//				if((username.getText().matches("[aA]dmin"))&& Arrays.equals(password.getPassword(), "12345".toCharArray())) {
+
+				if(AuthenticationManager.isAuthenticated(username.getText(), password.getPassword())) {
 					Main.getLoginpage().setVisible(false);
 					Main.getDashboard().setVisible(true);
 				}else {

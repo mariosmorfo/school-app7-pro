@@ -20,6 +20,11 @@ public class TeacherValidator <T> {
             errors.put("Lastname", "Lastname must be between 2 and 32 characters");
         }
 
+
+        if(dto.getVat().length() < 2 || dto.getLastname().length() > 9){
+            errors.put("Vat", "Vat must be between 2 and 9 characters");
+        }
+
 //        for all form fields, we need validation for length
 
         if(dto.getFirstname().matches("^.*\\s+$")) {

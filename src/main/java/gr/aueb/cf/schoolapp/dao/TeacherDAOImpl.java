@@ -15,7 +15,7 @@ public class TeacherDAOImpl implements ITeacherDAO  {
     public Teacher insert(Teacher teacher) throws TeacherDAOException {
         String sql = "INSERT INTO teachers (firstname, lastname, vat, fathername, phone_num, email, " +
         "street, street_num, zipcode, city_id, uuid, created_at, updated_at)" +
-                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,)";
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Teacher insertedTeacher = null;
 
@@ -32,9 +32,11 @@ public class TeacherDAOImpl implements ITeacherDAO  {
             ps.setString(8, teacher.getStreetNum());
             ps.setString(9, teacher.getZipCode());
             ps.setInt(10, teacher.getCityId());
-            ps.setString(11, teacher.getUuid());
+            ps.setString(11, UUID.randomUUID().toString());
             ps.setTimestamp(12, Timestamp.valueOf(LocalDateTime.now()));
             ps.setTimestamp(13, Timestamp.valueOf(LocalDateTime.now()));
+
+
             ps.executeUpdate();
 
             ResultSet rsGeneratedKeys = ps.getGeneratedKeys();
@@ -48,7 +50,7 @@ public class TeacherDAOImpl implements ITeacherDAO  {
             return insertedTeacher;
 
         }catch (SQLException e){
-//            e.printStackTrace();
+            e.printStackTrace();
 //            logging
             throw new TeacherDAOException("SQL Error, Insert with vat: " + teacher.getVat() + "not inserted");
         }
@@ -97,7 +99,7 @@ public class TeacherDAOImpl implements ITeacherDAO  {
 
     @Override
     public void delete(Integer id) throws TeacherDAOException {
-        String sql = "DELETE FROM teacher WHERE id = ?";
+        String sql = "DELETE FROM teachers WHERE id = ?";
 
         try (Connection connection = DBUtil.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)){
@@ -115,7 +117,7 @@ public class TeacherDAOImpl implements ITeacherDAO  {
 
     @Override
     public Teacher getById(Integer id) throws TeacherDAOException {
-        String sql = "SELECT * FROM teacher WHERE id = ? ";
+        String sql = "SELECT * FROM teachers WHERE id = ? ";
         Teacher teacher = null;
         ResultSet rs;
 
@@ -229,7 +231,7 @@ public class TeacherDAOImpl implements ITeacherDAO  {
 
     @Override
     public Teacher getTeacherByVat(String vat) throws TeacherDAOException {
-        String sql = "SELECT * FROM teacher WHERE vat = ?";
+        String sql = "SELECT * FROM teachers WHERE vat = ?";
         Teacher teacher = null;
         ResultSet rs;
 
@@ -248,9 +250,10 @@ public class TeacherDAOImpl implements ITeacherDAO  {
             return teacher;
 
         }catch (SQLException e){
-//            e.printStackTrace();
+            e.printStackTrace();
 //            logging
-            throw new TeacherDAOException("SQL Error, Teacher with uuid: " + vat + "error in finding");
+            throw new TeacherDAOException("SQL Error, Teacher with uuid: " + vat + " error in finding");
+
         }
     }
 
