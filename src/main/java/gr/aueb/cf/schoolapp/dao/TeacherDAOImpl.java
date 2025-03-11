@@ -228,7 +228,7 @@ public class TeacherDAOImpl implements ITeacherDAO  {
     }
 
     @Override
-    public Teacher getByVat(String vat) throws TeacherDAOException {
+    public Teacher getTeacherByVat(String vat) throws TeacherDAOException {
         String sql = "SELECT * FROM teacher WHERE vat = ?";
         Teacher teacher = null;
         ResultSet rs;
@@ -253,4 +253,5 @@ public class TeacherDAOImpl implements ITeacherDAO  {
             throw new TeacherDAOException("SQL Error, Teacher with uuid: " + vat + "error in finding");
         }
     }
+
 }
