@@ -25,7 +25,8 @@ public class Mapper {
 
     public static Optional<TeacherReadOnlyDTO> mapTeacherToReadOnlyDTO(Teacher teacher){
         if(teacher == null) return Optional.empty();
-        return Optional.of(new TeacherReadOnlyDTO(teacher.getId(), teacher.getUuid(), teacher.getFirstname(), teacher.getLastname(), teacher.getVat(), teacher.getFatherName(), teacher.getPhoneNum(),
+        return Optional.of(new TeacherReadOnlyDTO(teacher.getId(), teacher.getUuid(), teacher.getFirstname(), teacher.getLastname(), teacher.getVat(),
+                teacher.getFatherName(), teacher.getPhoneNum(),
                 teacher.getEmail(), teacher.getStreet(), teacher.getStreetNum(), teacher.getZipCode(), teacher.getCityId()));
     }
 }
