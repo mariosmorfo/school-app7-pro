@@ -117,7 +117,7 @@ public class InsertTeacherPage extends JFrame {
 		govImage.setBounds(0, 0, 100, 52);
 		header.add(govImage);
 
-		JLabel firstLastName = new JLabel("ΑΘΑΝΑΣΙΟΣ ΑΝΔΡΟΥΤΣΟΣ");
+		JLabel firstLastName = new JLabel("ΜΑΡΙΟΣ ΜΟΡΦΟΝΙΔΗΣ");
 		firstLastName.setForeground(Color.WHITE);
 		firstLastName.setBounds(649, 11, 183, 30);
 		header.add(firstLastName);
@@ -494,5 +494,27 @@ public class InsertTeacherPage extends JFrame {
 		String zipcode = zipcodeText.getText().trim();
 
 		return new TeacherInsertDTO(firstname, lastname, vat, fathername, phoneNumber, email, street, streetNumber, zipcode, cityId);
+	}
+
+	private void resetInputForm(){
+		firstnameText.setText("");
+		lastnameText.setText("");
+		fathernameText.setText("");
+		vatText.setText("");
+		emailText.setText("");
+		streetText.setText("");
+		streetNumberText.setText("");
+		zipcodeText.setText("");
+		cityComboBox.setSelectedIndex(0);
+		errorFirstname.setText("");
+		errorLastname.setText("");
+		errorfathername.setText("");
+		errorEmail.setText("");
+		errorStreet.setText("");
+		errorStreetNumber.setText("");
+		errorVat.setText("");
+		errorZipCode.setText("");
+
+
 	}
 }

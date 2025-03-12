@@ -191,8 +191,7 @@ public class Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Main.getDashboard().setEnabled(false);
 				Main.getInsertTeacherPage().setVisible(true);
-				
-				
+
 			}
 		});
 		btnNewButton_1_1.setForeground(new Color(255, 255, 255));
