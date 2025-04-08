@@ -6,35 +6,51 @@ import gr.aueb.cf.schoolapp.util.DBUtil;
 import jdk.jfr.StackTrace;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class StudentDAOImpl implements IStudentDAO {
     @Override
     public Student insert(Student student) throws StudentDAOException {
-        String sql = "INSERT INTO students (firstname, lastname, birthdate, fathername, phone_num, street, street_num, zipcode,  city_id, uuid " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO students (firstname, lastname, birthdate, fathername, phone_num, street, street_num, zipcode, city_id, uuid, created_at, updated_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         Student insertedStudent = null;
 
-        try(Connection connection = DBUtil.getConnection();
-            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
-        {
+        try (Connection connection = DBUtil.getConnection()) {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            // Parse birthdate
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate birthdate = LocalDate.parse(student.getBirthdate(), formatter);
+
+            // Generate UUID and Timestamp once
+            String uuid = UUID.randomUUID().toString();
+            Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+
+            // Set parameters
             ps.setString(1, student.getFirstname());
             ps.setString(2, student.getLastname());
-            ps.setString(3, student.getBirthdate());
+            ps.setDate(3, Date.valueOf(birthdate));
             ps.setString(4, student.getFathername());
             ps.setString(5, student.getPhoneNum());
             ps.setString(6, student.getStreet());
             ps.setString(7, student.getStreetNum());
             ps.setString(8, student.getZipcode());
             ps.setInt(9, student.getCityId());
-            ps.setString(10, student.getUuid());
+            ps.setString(10, uuid);
+            ps.setTimestamp(11, now);
+            ps.setTimestamp(12, now);
 
-            ps.executeQuery();
+            ps.executeUpdate();
+
+
             ResultSet rsGeneratedKeys = ps.getGeneratedKeys();
-
             if (rsGeneratedKeys.next()) {
                 int generateId = rsGeneratedKeys.getInt(1);
                 insertedStudent = getById(generateId);
@@ -42,15 +58,15 @@ public class StudentDAOImpl implements IStudentDAO {
 
             return insertedStudent;
 
-        }catch (SQLException e){
-            throw new StudentDAOException("SQL error in insert student.");
+        } catch (SQLException e) {
+            throw new StudentDAOException("SQL error in insert student: " + e.getMessage());
         }
-
     }
+
 
     @Override
     public Student update(Student student) throws StudentDAOException {
-        String sql = "UPDATE  students SET firstname = ? , lastname = ? , birthdate = ?, fathername = ?, phone_num = ?, street = ?, street_num = ?, zipcode = ?,  city_id = ?, uuid = ? " +
+        String sql = "UPDATE  students SET firstname = ? , lastname = ? , birthdate = ?, fathername = ?, phone_num = ?, street = ?, street_num = ?, zipcode = ?,  city_id = ?, uuid = ?, updated_at = ? " +
                 "WHERE id = ?";
 
         Student updatedStudent = null;
@@ -58,18 +74,28 @@ public class StudentDAOImpl implements IStudentDAO {
         try(Connection connection = DBUtil.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql))
         {
+            // Parse birthdate
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate birthdate = LocalDate.parse(student.getBirthdate(), formatter);
+
+            // Generate UUID and Timestamp once
+            String uuid = UUID.randomUUID().toString();
+            Timestamp now = Timestamp.valueOf(LocalDateTime.now());
+
+            // Set parameters
             ps.setString(1, student.getFirstname());
             ps.setString(2, student.getLastname());
-            ps.setString(3, student.getBirthdate());
+            ps.setDate(3, Date.valueOf(birthdate));
             ps.setString(4, student.getFathername());
             ps.setString(5, student.getPhoneNum());
             ps.setString(6, student.getStreet());
             ps.setString(7, student.getStreetNum());
             ps.setString(8, student.getZipcode());
             ps.setInt(9, student.getCityId());
-            ps.setString(10, student.getUuid());
-            ps.setInt(11, student.getId());
-
+            ps.setString(10, uuid);
+            ps.setTimestamp(11, now);
+            ps.setTimestamp(12, now);
+            ps.setInt(13, student.getId());
             ps.executeQuery();
 
 
@@ -113,7 +139,7 @@ public class StudentDAOImpl implements IStudentDAO {
 
             if (rs.next()) {
                 student = new Student(rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("birthdate"),rs.getString("fathername"), rs.getString("phone_num"), rs.getString("street"), rs.getString("street_num"),
-                        rs.getString("zipcode"), rs.getInt("city_id"), rs.getString("uuid"));
+                        rs.getString("zipcode"), rs.getInt("city_id"), rs.getString("uuid"), rs.getTimestamp("created_at").toLocalDateTime(), rs.getTimestamp("updated_at").toLocalDateTime());
 
 
             }
@@ -139,7 +165,7 @@ public class StudentDAOImpl implements IStudentDAO {
 
             if (rs.next()) {
                 student = new Student(rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("birthdate"),rs.getString("fathername"), rs.getString("phone_num"), rs.getString("street"), rs.getString("street_num"),
-                        rs.getString("zipcode"), rs.getInt("city_id"), rs.getString("uuid"));
+                        rs.getString("zipcode"), rs.getInt("city_id"), rs.getString("uuid"), rs.getTimestamp("created_at").toLocalDateTime(), rs.getTimestamp("updated_at").toLocalDateTime());
 
                 students.add(student);
             }
@@ -167,7 +193,7 @@ public class StudentDAOImpl implements IStudentDAO {
 
             while (rs.next()) {
                 student = new Student(rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("birthdate"),rs.getString("fathername"), rs.getString("phone_num"), rs.getString("street"), rs.getString("street_num"),
-                        rs.getString("zipcode"), rs.getInt("city_id"), rs.getString("uuid"));
+                        rs.getString("zipcode"), rs.getInt("city_id"), rs.getString("uuid"), rs.getTimestamp("created_at").toLocalDateTime(), rs.getTimestamp("updated_at").toLocalDateTime());
 
                 students.add(student);
             }

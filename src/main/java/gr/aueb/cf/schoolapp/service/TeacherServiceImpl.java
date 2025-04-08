@@ -1,5 +1,6 @@
 package gr.aueb.cf.schoolapp.service;
 
+import gr.aueb.cf.schoolapp.dao.IStudentDAO;
 import gr.aueb.cf.schoolapp.dao.ITeacherDAO;
 import gr.aueb.cf.schoolapp.dao.exceptions.TeacherDAOException;
 import gr.aueb.cf.schoolapp.dto.TeacherInsertDTO;
@@ -11,7 +12,6 @@ import gr.aueb.cf.schoolapp.mapper.Mapper;
 import gr.aueb.cf.schoolapp.model.Teacher;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -127,7 +127,10 @@ public class TeacherServiceImpl implements ITeacherService {
 
 //           return teachers.stream().map(Mapper::mapTeacherToReadOnlyDTO).flatMap(Optional::stream).collect(Collectors.toList());
 
-            return teachers.stream().map(t -> Mapper.mapTeacherToReadOnlyDTO(t).orElse(null)).collect(Collectors.toList());
+            return teachers.stream()
+                    .map(Mapper::mapTeacherToReadOnlyDTO)
+                    .flatMap(Optional::stream)
+                    .collect(Collectors.toList());
 
         }catch (TeacherDAOException e){
             e.printStackTrace();

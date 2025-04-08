@@ -1,5 +1,7 @@
 package gr.aueb.cf.schoolapp.model;
 
+import java.time.LocalDateTime;
+
 public class Student {
 
     private Integer id;
@@ -13,12 +15,14 @@ public class Student {
     private String zipcode;
     private Integer cityId;
     private String uuid;
+    private LocalDateTime updatedat;
+    private LocalDateTime createdat;
 
-    public Student(){
+    public Student() {
 
     }
 
-    public Student(Integer id, String firstname, String lastname, String birthdate, String fathername, String phoneNum, String street, String streetNum, String zipcode, Integer cityId, String uuid) {
+    public Student(Integer id, String firstname, String lastname, String birthdate, String fathername, String phoneNum, String street, String streetNum, String zipcode, Integer cityId, String uuid, LocalDateTime updatedat, LocalDateTime createdat) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -30,6 +34,8 @@ public class Student {
         this.zipcode = zipcode;
         this.cityId = cityId;
         this.uuid = uuid;
+        this.updatedat = updatedat;
+        this.createdat = createdat;
     }
 
     public Integer getId() {
@@ -118,5 +124,21 @@ public class Student {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public LocalDateTime getUpdatedat() {
+        return updatedat;
+    }
+
+    public void setUpdatedat(LocalDateTime updatedat) {
+        this.updatedat = updatedat;
+    }
+
+    public LocalDateTime getCreatedat() {
+        return createdat;
+    }
+
+    public void setCreatedat(LocalDateTime createdat) {
+        this.createdat = createdat;
     }
 }

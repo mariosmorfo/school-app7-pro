@@ -1,6 +1,16 @@
 package gr.aueb.cf.schoolapp.view_controller;
 
 import gr.aueb.cf.schoolapp.Main;
+import gr.aueb.cf.schoolapp.dao.CityDAOImpl;
+import gr.aueb.cf.schoolapp.dao.ICityDAO;
+import gr.aueb.cf.schoolapp.dao.ITeacherDAO;
+import gr.aueb.cf.schoolapp.dao.TeacherDAOImpl;
+import gr.aueb.cf.schoolapp.dao.exceptions.TeacherDAOException;
+import gr.aueb.cf.schoolapp.dto.TeacherReadOnlyDTO;
+import gr.aueb.cf.schoolapp.service.CityServiceImpl;
+import gr.aueb.cf.schoolapp.service.ICityService;
+import gr.aueb.cf.schoolapp.service.ITeacherService;
+import gr.aueb.cf.schoolapp.service.TeacherServiceImpl;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -29,6 +39,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Toolkit;
+import java.util.List;
 
 public class ViewTeachersPage extends JFrame {
 
@@ -39,11 +50,17 @@ public class ViewTeachersPage extends JFrame {
 	private DefaultTableModel model = new DefaultTableModel();
 	private int selectedId;
 
+	private final ICityDAO cityDao = new CityDAOImpl();
+	private final ICityService cityService = new CityServiceImpl(cityDao);
+
+	private final ITeacherDAO teacherDAO = new TeacherDAOImpl();
+	private final ITeacherService teacherService = new TeacherServiceImpl(teacherDAO);
+
 	public ViewTeachersPage() {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-				buildTable();
+//				buildTable();
 			}
 		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ViewTeachersPage.class.getResource("/images/eduv2.png")));
@@ -240,31 +257,25 @@ public class ViewTeachersPage extends JFrame {
 		return selectedId;
 	}
 
-	//
+
 	private void buildTable() {
-//		String sql = "SELECT id, firstname, lastname FROM teachers WHERE lastname like ?";
-//		Connection con = Dashboard.getConnection();
-//
-//		try (
-//				PreparedStatement ps = con.prepareStatement(sql)) {
-//			ps.setString(1, lastnameText.getText().trim() + "%");
-//			ResultSet rs = ps.executeQuery();
-//
-//			model.setRowCount(0);
-//
-//			while (rs.next()) {
-//				Object[] row = {
-//						rs.getString("id"),
-//						rs.getString("firstname"),
-//						rs.getString("lastname")
-//				};
-//
-//				model.addRow(row);
-//			}
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			JOptionPane.showMessageDialog(null, "Select Error", "Error", JOptionPane.ERROR_MESSAGE);
+
+		List<TeacherReadOnlyDTO> teachers;
+
+		try{
+			for(int i  = model.getRowCount() -1; i >=0; i--){
+				model.removeRow(i);
+			}
+
+			teachers = teacherService.getTeachersByLastname(lastnameText.getText().trim());
+			teachers.stream()
+					.map(t -> new Object[] {t.getId(), t.getFirstname(), t.getLastname()})
+					.forEach(row -> model.addRow(row));
+
+		}catch (TeacherDAOException e){
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Error in building the table", "Error", JOptionPane.ERROR_MESSAGE);
+		}
 
 		}
 //	}
@@ -295,5 +306,7 @@ public class ViewTeachersPage extends JFrame {
 //
 //		}
 		}
+
+
 	}
 

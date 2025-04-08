@@ -200,34 +200,31 @@ public class TeacherDAOImpl implements ITeacherDAO  {
     }
 
     @Override
-    public List <Teacher> getByLastname(String lastname) throws TeacherDAOException {
-        String sql = "SELECT * FROM teachers WHERE lastname LIKE %";
-        Teacher teacher = null;
+    public List<Teacher> getByLastname(String lastname) throws TeacherDAOException {
         List<Teacher> teachers = new ArrayList<>();
+        Teacher teacher;
+        String sql = "SELECT * FROM teachers WHERE lastname LIKE ?";
         ResultSet rs;
 
         try (Connection connection = DBUtil.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)){
-
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, lastname + "%");
             rs = ps.executeQuery();
-            while(rs.next()){
-                teacher = new Teacher(rs.getInt("id") , rs.getString("firstname"), rs.getString("lastname"), rs.getString("vat"),
-                        rs.getString("fatherName"), rs.getString("phone_num"), rs.getString("email"), rs.getString("street") ,
+            while (rs.next()) {
+                teacher = new Teacher(rs.getInt("id"), rs.getString("firstname"), rs.getString("lastname"), rs.getString("vat"),
+                        rs.getString("fathername"), rs.getString("phone_num"), rs.getString("email"), rs.getString("street"),
                         rs.getString("street_num"), rs.getString("zipcode"), rs.getInt("city_id"), rs.getString("uuid"),
                         rs.getTimestamp("created_at").toLocalDateTime(), rs.getTimestamp("updated_at").toLocalDateTime());
                 teachers.add(teacher);
             }
-
             return teachers;
-
-
-        }catch (SQLException e){
-//            e.printStackTrace();
-//            logging
-            throw new TeacherDAOException("SQL Error, Error in get all teachers");
+        } catch (SQLException e) {
+            // e.printStackTrace();
+            // logging
+            throw new TeacherDAOException("SQL error in get with lastname: " + lastname);
         }
     }
+
 
     @Override
     public Teacher getTeacherByVat(String vat) throws TeacherDAOException {

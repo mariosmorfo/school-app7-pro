@@ -13,6 +13,7 @@ public class Main {
 	private static final TeacherView teacherView = new TeacherView();
 	private static final UpdateTeacherPage updateTeacherPage = new UpdateTeacherPage();
 	private static final InsertTeacherPage insertTeacherPage = new InsertTeacherPage();
+	private static final InsertStudentPage insertStudentPage = new InsertStudentPage();
 	
 	
 	
@@ -44,7 +45,8 @@ public class Main {
 					 insertTeacherPage.setVisible(false);
 					 insertTeacherPage.setLocationRelativeTo(null);
 					
-					
+					insertStudentPage.setVisible(false);
+					insertStudentPage.setLocationRelativeTo(null);
 					
 					
 				} catch (Exception e) {
@@ -91,6 +93,9 @@ public class Main {
 	public static InsertTeacherPage getInsertTeacherPage() {
 		return insertTeacherPage;
 	}
+
+	public static InsertStudentPage getInsertStudentPage(){return insertStudentPage;}
+
 	
 	
 	
