@@ -74,7 +74,7 @@ public class ViewStudentPage extends JFrame {
         btnNewButton_1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 lastnameText.setText("");
-                buildTable();
+//                buildTable();
             }
         });
 
