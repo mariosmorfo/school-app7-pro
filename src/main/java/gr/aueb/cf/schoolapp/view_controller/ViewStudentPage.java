@@ -138,7 +138,7 @@ public class ViewStudentPage extends JFrame {
         JButton updateBtn = new JButton("Επεξεργασία");
         updateBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Main.getViewTeachersPage().setEnabled(false);
+                Main.getViewStudentPage().setEnabled(false);
                 Main.getUpdateTeacherPage().setVisible(true);
             }
         });
@@ -248,7 +248,7 @@ public class ViewStudentPage extends JFrame {
 
            students = studentService.getStudentByLastname(lastnameText.getText().trim());
            students.stream()
-                    .map(t -> new Object[] {t.getId(), t.getFirstname(), t.getLastname()})
+                    .map(s -> new Object[] {s.getId(), s.getFirstname(), s.getLastname()})
                     .forEach(row -> model.addRow(row));
 
         }catch (StudentDAOException e){

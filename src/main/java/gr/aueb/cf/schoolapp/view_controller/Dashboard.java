@@ -208,6 +208,7 @@ public class Dashboard extends JFrame {
 		lblNewLabel_2.setBounds(181, 162, 515, 31);
 		contentPane.add(lblNewLabel_2);
 
+
 		JLabel lblNewLabel_3 = new JLabel("Εισαγωγή Εκπαιδευτή στο Μητρώο Εκπαιδευτών");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_3.setBounds(181, 236, 405, 31);
@@ -243,7 +244,7 @@ public class Dashboard extends JFrame {
 		btnNewButton_1_1_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Main.getDashboard().setEnabled(false);
-				Main.getStudentView().setVisible(true);
+				Main.getViewStudentPage().setVisible(true);
 
 
 			}
@@ -259,12 +260,12 @@ public class Dashboard extends JFrame {
 		contentPane.add(insertTeacher);
 
 		JButton viewTeacher = new JButton("Συνέχεια");
-//		viewTeacher.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				Main.getDashboard().setEnabled(false);
-//				Main.getViewTeachersPage().setVisible(true);
-//			}
-//		});
+		viewTeacher.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main.getDashboard().setEnabled(false);
+				Main.getViewTeachersPage().setVisible(true);
+			}
+		});
 		viewTeacher.setForeground(Color.WHITE);
 		viewTeacher.setBackground(new Color(0, 128, 0));
 		viewTeacher.setBounds(181, 194, 89, 31);

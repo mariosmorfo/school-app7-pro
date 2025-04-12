@@ -142,8 +142,8 @@ public class StudentView extends JFrame {
         JButton btnNewButton = new JButton("Κλείσιμο");
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Main.getViewTeachersPage().setEnabled(true);
-                Main.getTeacherView().setVisible(false);
+                Main.getViewStudentPage().setEnabled(true);
+                Main.getStudentView().setVisible(false);
             }
         });
 
