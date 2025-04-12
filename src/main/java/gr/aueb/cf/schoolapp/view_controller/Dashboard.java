@@ -185,7 +185,7 @@ public class Dashboard extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Main.getDashboard().setEnabled(false);
-				Main.getViewTeachersPage().setVisible(true);
+				Main.getViewStudentPage().setVisible(true);
 			}
 		});
 		lbl_studentsView.setForeground(Color.WHITE);
@@ -240,14 +240,14 @@ public class Dashboard extends JFrame {
 		contentPane.add(lblNewLabel_2_1);
 
 		JButton btnNewButton_1_1_1_1 = new JButton("Συνέχεια");
-//		btnNewButton_1_1_1_1.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				Main.getDashboard().setEnabled(false);
-//				Main.getInsertTeacherPage().setVisible(true);
-//
-//
-//			}
-//		});
+		btnNewButton_1_1_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main.getDashboard().setEnabled(false);
+				Main.getStudentView().setVisible(true);
+
+
+			}
+		});
 
 		btnNewButton_1_1_1_1.setForeground(Color.WHITE);
 		btnNewButton_1_1_1_1.setBackground(new Color(0, 128, 0));

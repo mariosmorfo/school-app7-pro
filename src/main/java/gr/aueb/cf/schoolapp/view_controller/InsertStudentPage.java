@@ -157,8 +157,8 @@ public class InsertStudentPage extends JFrame {
         lastnameText.setColumns(10);
         lastnameText.setBounds(512, 131, 263, 37);
         contentPane.add(lastnameText);
-
         lastnameText.addFocusListener(new FocusAdapter() {
+
             @Override
             public void focusLost(FocusEvent e) {
                 String inputLastname;
